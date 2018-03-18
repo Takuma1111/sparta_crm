@@ -10,12 +10,52 @@
   <div class="col-lg-6">
     <%= link_to '顧客登録', new_customer_path, class: "btn btn-default pull-right" %>
   </div>
+
+
+  <%= search_form_for @q do |f| %>
+      <div class="row">
+        <div class="col-sm-3 col-xs-12">
+          <div class="form-group">
+            <%= f.label :family_name_cont, '姓' %>
+            <%= f.search_field :family_name_cont, class: "form-control input-sm" %>
+          </div>
+        </div>
+        <div class="col-sm-3 col-xs-12">
+          <div class="form-group">
+            <%= f.label :given_name_cont, '名' %>
+            <%= f.search_field :given_name_cont, class: "form-control input-sm" %>
+          </div>
+        </div>
+        <div class="col-sm-3 col-xs-12">
+          <div class="form-group">
+            <%= f.label :email_cont, '電子メール' %>
+            <%= f.search_field :email_cont, class: "form-control input-sm" %>
+          </div>
+        </div>
+        <div class="col-sm-3 col-xs-12">
+          <div class="form-group">
+            <%= f.label :company_name_cont, '会社名' %>
+            <%= f.search_field :company_name_cont, class: "form-control input-sm" %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 text-center">
+          <%= f.submit "検索", class: "btn btn-default" %>
+          <%= link_to "リセット", request.path, class:"btn btn-default" %>
+        </div>
+      </div>
+    <% end %>
+    <hr />
+
+
   <table class="table table-striped">
     <thead>
-      <th>姓</th>
-      <th>名</th>
-      <th>電子メール</th>
-      <th>所属会社</th>
+      <th><%= sort_link(@q, :family_name, "姓") %></th>
+      <th><%= sort_link(@q, :given_name, "名") %></th>
+      <th><%= sort_link(@q, :email, "電子メール") %></th>
+      <th><%= sort_link(@q, :company_name, "所属会社") %></th>
+      <th><%= sort_link(@q, :post_position_name, "役職") %></th>
       <th>リンク</th>
     </thead>
     <tbody>
@@ -25,6 +65,7 @@
           <td><%= customer.given_name %></td>
           <td><%= customer.email %></td>
           <td><%= customer.company.name %></td>
+          <td><%= customer.post.position_name %></td>
           <td><%= link_to '詳細', customer, class: "btn btn-default btn-xs" %></td>
         </tr>
       <% end %>
