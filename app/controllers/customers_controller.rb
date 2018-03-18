@@ -1,9 +1,11 @@
 class CustomersController < ApplicationController
 
+  before_action :authenticate_user!   #これをつかすることによってログインしなきゃ編集することができる
+                                      #onlyつけて指定することによってログインしなくても閲覧できるようにする
   before_action :set_customer, only: [:show, :edit, :update, :destroy]    #onlyでアクションを入れるdefを指定
 
   def index
-  
+
     @q = Customer.includes(:post, :company).ransack(params[:q])
     @customers = @q.result.page(params[:page])
   end
@@ -33,6 +35,8 @@ class CustomersController < ApplicationController
   end
 
   def show
+    @comment = Comment.new
+    @comments = @customer.comments
   end
 
   def destroy
